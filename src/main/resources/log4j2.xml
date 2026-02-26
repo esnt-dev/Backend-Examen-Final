@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="WARN" monitorInterval="30">
+
+    <Properties>
+        <Property name="LOG_PATH">logs</Property>
+        <Property name="ARCHIVE_PATH">${LOG_PATH}/archive</Property>
+        <Property name="PATTERN">%d{yyyy-MM-dd HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n</Property>
+    </Properties>
+
+    <Appenders>
+        <Console name="ConsoleAppender" target="SYSTEM_OUT">
+            <PatternLayout pattern="%d{HH:mm:ss} %highlight{%-5level} [%t] %style{%logger{1}}{cyan} - %msg%n" disableAnsi="false"/>
+        </Console>
+
+        <RollingFile name="MainFileAppender"
+                     fileName="${LOG_PATH}/app-matriculas.log"
+                     filePattern="${ARCHIVE_PATH}/app-matriculas-%d{yyyy-MM-dd}-%i.log.gz">
+
+            <PatternLayout pattern="${PATTERN}"/>
+
+            <Policies>
+                <TimeBasedTriggeringPolicy interval="1" modulate="true"/>
+                <SizeBasedTriggeringPolicy size="10 MB"/>
+            </Policies>
+
+            <DefaultRolloverStrategy max="30">
+                <Delete basePath="${ARCHIVE_PATH}" maxDepth="1">
+                    <IfFileName glob="app-matriculas-*.log.gz" />
+                    <IfLastModified age="30d" />
+                </Delete>
+            </DefaultRolloverStrategy>
+        </RollingFile>
+
+        <File name="ErrorFileAppender" fileName="${LOG_PATH}/errors-criticos.log">
+            <ThresholdFilter level="ERROR" onMatch="ACCEPT" onMismatch="DENY"/>
+            <PatternLayout pattern="${PATTERN}"/>
+        </File>
+    </Appenders>
+
+    <Loggers>
+        <Logger name="org.hibernate" level="warn" additivity="false">
+            <AppenderRef ref="ConsoleAppender"/>
+        </Logger>
+
+        <Root level="info">
+            <AppenderRef ref="ConsoleAppender"/>
+            <AppenderRef ref="MainFileAppender"/>
+            <AppenderRef ref="ErrorFileAppender"/>
+        </Root>
+    </Loggers>
+</Configuration>
