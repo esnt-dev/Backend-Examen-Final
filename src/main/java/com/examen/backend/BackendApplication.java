@@ -8,8 +8,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.jdbc.core.JdbcTemplate;
 
-import javax.sql.DataSource;
-
 @SpringBootApplication
 public class BackendApplication {
 
@@ -21,7 +19,7 @@ public class BackendApplication {
     }
 
     @Bean
-    public CommandLineRunner checkConnectionDB(DataSource dataSource, JdbcTemplate jdbcTemplate) {
+    public CommandLineRunner checkConnectionDB(JdbcTemplate jdbcTemplate) {
         return args -> {
             try {
                 LOG.info("Verificando conexión a la base de datos...");
