@@ -53,20 +53,20 @@ public class UsuarioDAO implements UsuarioREP {
             "select * from usuarios where usurmail = ? and usuisdeleted = false";
 
     @Override
-    public Usuario findUserByEmail (String email){
+    public Usuario findUserByEmail(String email) {
         LOG.info("Inicianado busqueda de usuario con email: {}", email);
 
         Usuario userDB = null;
         PreparedStatement ps = null;
         ResultSet rs = null;
 
-        try (Connection conn = ConexionDB.getConnection()){
+        try (Connection conn = ConexionDB.getConnection()) {
 
             ps = conn.prepareStatement(SQL_SELECT_USER_WHERE);
             ps.setString(1, email);
             rs = ps.executeQuery();
 
-            if  (rs.next()) {
+            if (rs.next()) {
                 userDB = new Usuario();
                 userDB.setUsurId(rs.getLong("usurid"));
                 userDB.setUsurName(rs.getString("usurname"));
@@ -86,10 +86,18 @@ public class UsuarioDAO implements UsuarioREP {
             throw new RuntimeException(e);
         } finally {
             if (rs != null) {
-                try { rs.close(); } catch (SQLException e) { LOG.error("Error al cerrar rs", e); }
+                try {
+                    rs.close();
+                } catch (SQLException e) {
+                    LOG.error("Error al cerrar rs", e);
+                }
             }
             if (ps != null) {
-                try { ps.close(); } catch (SQLException e) { LOG.error("Error al cerrar ps", e); }
+                try {
+                    ps.close();
+                } catch (SQLException e) {
+                    LOG.error("Error al cerrar ps", e);
+                }
             }
         }
         return userDB;
@@ -98,36 +106,43 @@ public class UsuarioDAO implements UsuarioREP {
     private static final String SQL_SELECT_USER_WHERE_EXITS =
             "select * from usuarios where usurmail = ? and usuisdeleted = false";
 
-     @Override
-    public boolean existsUserByEmail (String email){
-         LOG.info("Inicianado busqueda de usuario con email: {}", email);
+    @Override
+    public boolean existsUserByEmail(String email) {
+        LOG.info("Inicianado busqueda de usuario con email: {}", email);
 
-         boolean exitUserDB = false;
-         PreparedStatement ps = null;
-         ResultSet rs = null;
+        boolean exitUserDB = false;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
 
-         try (Connection conn = ConexionDB.getConnection()) {
+        try (Connection conn = ConexionDB.getConnection()) {
 
-             ps = conn.prepareStatement(SQL_SELECT_USER_WHERE_EXITS);
-             ps.setString(1, email);
-             rs = ps.executeQuery();
+            ps = conn.prepareStatement(SQL_SELECT_USER_WHERE_EXITS);
+            ps.setString(1, email);
+            rs = ps.executeQuery();
 
-             if (rs.next()) {
-                 return true;
-             }
+            if (rs.next()) {
+                return true;
+            }
 
-         } catch (SQLException e) {
-             LOG.error("Error al obtener el usuario", e);
-             throw new RuntimeException(e);
-         } finally {
-             if (rs != null) {
-                 try { rs.close(); } catch (SQLException e) { LOG.error("Error al cerrar rs", e); }
-             }
-             if (ps != null) {
-                 try { ps.close(); } catch (SQLException e) { LOG.error("Error al cerrar ps", e); }
-             }
-         }
-         return exitUserDB;
-     }
-
+        } catch (SQLException e) {
+            LOG.error("Error al obtener el usuario", e);
+            throw new RuntimeException(e);
+        } finally {
+            if (rs != null) {
+                try {
+                    rs.close();
+                } catch (SQLException e) {
+                    LOG.error("Error al cerrar rs", e);
+                }
+            }
+            if (ps != null) {
+                try {
+                    ps.close();
+                } catch (SQLException e) {
+                    LOG.error("Error al cerrar ps", e);
+                }
+            }
+        }
+        return exitUserDB;
+    }
 }
