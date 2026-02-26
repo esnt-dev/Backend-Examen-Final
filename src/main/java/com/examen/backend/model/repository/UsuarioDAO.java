@@ -4,13 +4,14 @@ import com.examen.backend.config.ConexionDB;
 import com.examen.backend.model.entity.Usuario;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.springframework.stereotype.Repository;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-
+@Repository
 public class UsuarioDAO implements UsuarioREP {
     private static final Logger LOG = LogManager.getLogger(UsuarioDAO.class);
 

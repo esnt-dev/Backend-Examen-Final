@@ -12,7 +12,7 @@ public class JwtConfig {
 
     private static final Logger LOG = LogManager.getLogger(JwtConfig.class);
 
-    @Value("${jwt.secret}")
+    @Value("${JWT_SECRET}")
     private String secretKey;
 
     @PostConstruct
