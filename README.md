@@ -15,12 +15,30 @@ La estructura de paquetes principal se encuentra en `src/main/java/com/examen/ba
     *   **`service`**: Contiene la lógica de negocio y las reglas de la aplicación.
 *   **`dto` (Data Transfer Objects)**: Objetos utilizados para transportar datos entre procesos, especialmente útiles para desacoplar la capa de presentación (controladores) de la capa de persistencia.
 *   **`config`**: Clases de configuración del proyecto, como configuraciones de seguridad, beans de Spring, o configuraciones de base de datos.
-*   **`utility`**: Clases de utilidad y helpers que proporcionan funciones comunes reutilizables en toda la aplicación.
+*   **`utility`**: Clases de utilidad y helpers que proporcionan funciones comunes reutilizables en toda la aplicación. Incluye `JwtUtil` para la generación y validación de tokens JWT seguros.
 
 ## Requisitos
 
 *   Java 17 o superior
 *   Maven
+
+## Configuración
+
+Antes de ejecutar la aplicación, es necesario configurar el archivo `application.properties` en `src/main/resources`. Este archivo no se incluye en el repositorio por seguridad.
+
+Asegúrate de definir las siguientes propiedades:
+
+```properties
+# Configuración de Base de Datos
+spring.datasource.url=jdbc:postgresql://localhost:5432/tu_base_de_datos
+spring.datasource.username=tu_usuario
+spring.datasource.password=tu_contraseña
+spring.datasource.driver-class-name=org.postgresql.Driver
+
+# Configuración de JWT
+# Debe ser una cadena Base64 válida de al menos 512 bits para HS512
+jwt.secret=TU_CLAVE_SECRETA_EN_BASE64
+```
 
 ## Cómo ejecutar
 
@@ -32,4 +50,4 @@ Para ejecutar la aplicación, utiliza el siguiente comando en la raíz del proye
 
 ## Despliegue
 
-Asegúrate de configurar correctamente el archivo `application.properties` (el cual está ignorado en el repositorio por seguridad) con las credenciales de tu base de datos y otras configuraciones del entorno antes de desplegar.
+Asegúrate de configurar correctamente las variables de entorno o el archivo de propiedades en el servidor de despliegue.
