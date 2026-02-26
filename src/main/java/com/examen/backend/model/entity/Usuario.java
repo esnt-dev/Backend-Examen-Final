@@ -1,5 +1,4 @@
 package com.examen.backend.model.entity;
-
 import java.time.LocalDateTime;
 
 public class Usuario {
